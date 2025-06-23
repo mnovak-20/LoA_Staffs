@@ -5,7 +5,7 @@ export default function AwesomeList() {
   const [selected, setSelected] = useState(null);
 
   useEffect(() => {
-    fetch("https://docs.google.com/spreadsheets/d/1JFvktyApiGKVgruNMpwSbE_RtGx_M4Pt_Zp-KbHeBLA/pub?output=csv"
+    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTB9a6UtJtvvOzJdKK4dozXmyP9J1ofMn4FFjB6VNfxJ72rgFp4JlNUMhSp0jJJCk5JPYGgWklX5PuR/pub?output=csv"
 	)
       .then((res) => res.text())
       .then((csvText) => {
