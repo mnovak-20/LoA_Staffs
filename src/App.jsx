@@ -4,26 +4,31 @@ export default function AwesomeList() {
   const [items, setItems] = useState([]);
   const [selected, setSelected] = useState(null);
 
-  useEffect(() => {
-    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTB9a6UtJtvvOzJdKK4dozXmyP9J1ofMn4FFjB6VNfxJ72rgFp4JlNUMhSp0jJJCk5JPYGgWklX5PuR/pub?output=csv")
-      .then((res) => res.text())
-      .then((csvText) => {
-        const rows = csvText.split("\n").slice(1); // skip header
-        const data = rows.map((row, index) => {
-          const [title, image, studentNames, linkedins, portfolios] = row.split(",");
-          const names = studentNames?.split("|") || [];
-          const links = linkedins?.split("|") || [];
-          const ports = portfolios?.split("|") || [];
-          const students = names.map((name, i) => ({
-            name: name.trim(),
-            linkedin: links[i]?.trim() || "",
-            portfolio: ports[i]?.trim() || ""
-          }));
-          return { id: index, title, image, students };
-        });
-        setItems(data);
+useEffect(() => {
+  const images = import.meta.glob('./assets/images/boxart/*', { eager: true, as: 'url' });
+
+  fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTB9a6UtJtvvOzJdKK4dozXmyP9J1ofMn4FFjB6VNfxJ72rgFp4JlNUMhSp0jJJCk5JPYGgWklX5PuR/pub?output=csv")
+    .then((res) => res.text())
+    .then((csvText) => {
+      const rows = csvText.split("\n").slice(1);
+      const data = rows.map((row, index) => {
+        const [title, imageFilename, studentNames, linkedins, portfolios] = row.split(",");
+        const names = studentNames?.split("|") || [];
+        const links = linkedins?.split("|") || [];
+        const ports = portfolios?.split("|") || [];
+        const students = names.map((name, i) => ({
+          name: name.trim(),
+          linkedin: links[i]?.trim() || "",
+          portfolio: ports[i]?.trim() || ""
+        }));
+        const image = images[`./assets/images/boxart/${imageFilename?.trim()}`];
+
+        return { id: index, title, image, students };
       });
-  }, []);
+      setItems(data);
+    });
+}, []);
+
 
   return (
     <div className="bg-[#F8F8F8] min-h-screen p-8 font-sans">
