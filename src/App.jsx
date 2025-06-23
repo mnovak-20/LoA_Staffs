@@ -29,7 +29,7 @@ export default function AwesomeList() {
   return (
     <div className="bg-[#F8F8F8] min-h-screen p-8 font-sans">
       <header className="text-center mb-10">
-        <img src="/images/UofS_Master_Logo_RGB_Reverse.png" alt="Staffordshire University Logo" className="w-40 mx-auto mb-4" />
+        <img src="LoA_Staffs/images/UofS_Master_Logo_RGB_Reverse.png" alt="Staffordshire University Logo" className="w-40 mx-auto mb-4" />
         <h1 className="text-4xl font-bold text-[#C8102E]">The List of Awesome</h1>
         <h2 className="text-lg text-gray-700 mt-2">Game Credit list of Staffordshire Alumni</h2>
       </header>
