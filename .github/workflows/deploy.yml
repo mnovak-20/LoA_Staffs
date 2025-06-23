@@ -31,5 +31,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           force_orphan: true
-          user_name: mnovak-20
-          user_email: matthew.novak@staffs.ac.uk
