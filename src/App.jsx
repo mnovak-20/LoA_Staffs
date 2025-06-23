@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 // Importing images
 import logo from './assets/images/UofS_Master_Logo_RGB_Reverse.png';
 import logo2 from './assets/images/UofS_Master_Logo_RGB_Reverse_notext.png';
-import anniversaryLogo from './assets/images/20YoG.png';
+import anniversaryLogo from './assets/images/23YoG.png';
 import SUlogo from './assets/SU.svg';
 
 // Dynamically import box art images
