@@ -5,6 +5,12 @@ html, body, #root {
   background-color: #C2BFD2;
 }
 
+:root {
+  --UofSBlue: #170D38;
+  --UofSRed: #EF4A3B;
+  --UofSGrey: #C2BFD2;
+}
+
 
 
 @tailwind base;
