@@ -15,12 +15,19 @@ import UofSLogo from './assets/SU.svg';
 
 // Dynamically import box art images
 const boxArtImages = import.meta.glob('./assets/images/boxart/*', { eager: true });
+const staffImages = import.meta.glob('./assets/images/staff/*', { eager: true });
+const studioImages = import.meta.glob('./assets/images/studio/*', { eager: true });
+const gameImages = import.meta.glob('./assets/images/games/*', { eager: true });
+
 
 // Main component
 export default function LoA() {
   const [activeTab, setActiveTab] = useState('CREDITS');
   const [items, setItems] = useState([]);
   const [selected, setSelected] = useState(null);
+
+  const [loading, setLoading] = useState(false);
+
 
   // GRID CSV Mapping
 const tabConfigs = {
@@ -43,31 +50,31 @@ const tabConfigs = {
   },
 
   STUDIOS: {
-    csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSAMPLE_URL_STUDIOS/pub?output=csv',
+    csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsRlsFc_V0Hv9ohZaakOtm7Krzo5GVCVIlIDemtsOpmEQFtFaapcZexH3nUC7uxXPNxDQCgk0Jd5lH/pub?output=csv',
     parser: (row, index) => {
       const [studioName, imageName, website] = row.split(",");
-      const imagePath = `./assets/images/boxart/${imageName.trim()}`;
-      const image = boxArtImages[imagePath]?.default || '';
+      const imagePath = `./assets/images/studio/${imageName.trim()}`;
+      const image = studioImages[imagePath]?.default || '';
       return { id: index, title: studioName, image, website };
     }
   },
 
   STAFF: {
-    csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSAMPLE_URL_STAFF/pub?output=csv',
+    csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSo7n2hUWWcqVfztryidahUsqwbQUAp5vNO7IFfMQbGFxOzK2HYB-ojPR5ZZ7aH0JKOXQd5vIODtHLT/pub?output=csv',
     parser: (row, index) => {
       const [staffName, imageName, role] = row.split(",");
-      const imagePath = `./assets/images/boxart/${imageName.trim()}`;
-      const image = boxArtImages[imagePath]?.default || '';
+      const imagePath = `./assets/images/staff/${imageName.trim()}`;
+      const image = staffImages[imagePath]?.default || '';
       return { id: index, title: staffName, image, role };
     }
   },
 
   GAMES: {
-    csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSAMPLE_URL_GAMES/pub?output=csv',
+    csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRcczx33xixp4uvdKmm56MuouAu2taz8boXR8fF1FWnY70MSM_NQtjWn1fh6YtDwmjEvPbazotjjec/pub?output=csv',
     parser: (row, index) => {
       const [gameName, imageName, releaseYear] = row.split(",");
-      const imagePath = `./assets/images/boxart/${imageName.trim()}`;
-      const image = boxArtImages[imagePath]?.default || '';
+      const imagePath = `./assets/images/games/${imageName.trim()}`;
+      const image = gameImages[imagePath]?.default || '';
       return { id: index, title: gameName, image, releaseYear };
     }
   }
@@ -81,6 +88,23 @@ const tabDescriptions = {
   GAMES: "Games created by the students at University of Staffordshire. Go Play!"
 };
 
+// Dynamic grid/card styles per tab
+const tabStyles = {
+  CREDITS: { cardHeight: 260, minWidth: 150 },
+  STUDIOS: { cardHeight: 180, minWidth: 140 },
+  STAFF:   { cardHeight: 250, minWidth: 100 },
+  GAMES:   { cardHeight: 300, minWidth: 250 }
+};
+
+const cardMinWidth = {
+  CREDITS: 160,
+  STUDIOS: 150,
+  STAFF: 180,
+  GAMES: 240
+}[activeTab] || 200;
+
+
+const { cardHeight, minWidth } = tabStyles[activeTab] || { cardHeight: 260, minWidth: 150 };
 
 
   // Fetching data from Google Sheets CSV
@@ -88,12 +112,15 @@ useEffect(() => {
   const config = tabConfigs[activeTab];
   if (!config) return;
 
+  setLoading(true); // start loading
+
   fetch(config.csvUrl)
     .then((res) => res.text())
     .then((csvText) => {
       const rows = csvText.split("\n").slice(1);
       const data = rows.map(config.parser);
       setItems(data);
+      setLoading(false); // done loading
     });
 }, [activeTab]);
 
@@ -191,11 +218,16 @@ useEffect(() => {
   borderRadius: '1rem',
   marginTop: '30px',
   padding: '30px',
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+  display: loading ? 'none' : 'grid', // Hide while loading
+  gridTemplateColumns: `repeat(auto-fill, minmax(${cardMinWidth}px, 1fr))`,
+
   gap: '20px',
   width: '100%',
-  boxSizing: 'border-box'
+  boxSizing: 'border-box',
+  opacity: loading ? 0 : 1,
+  transition: 'opacity 0.3s ease',
+  
+
 }}>
   {items.map((item) => (
     <div
@@ -203,7 +235,7 @@ useEffect(() => {
       onClick={() => setSelected(item)}
       style={{
         width: '100%',
-        height: '260px',
+        height: `${cardHeight}px`,
         borderRadius: '18px',
         overflow: 'hidden',
         cursor: 'pointer',
@@ -255,6 +287,11 @@ useEffect(() => {
   ))}
 </div>
 
+{loading && (
+  <div style={{ textAlign: 'center', color: '#EF4A3B', fontFamily: 'Arial Black' }}>
+    Loading...
+  </div>
+)}
 
 {/* Description Text Below Grid */}
 <div style={{
