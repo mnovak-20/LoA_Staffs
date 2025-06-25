@@ -10,9 +10,3 @@ html, body, #root {
   --UofSRed: #EF4A3B;
   --UofSGrey: #C2BFD2;
 }
-
-
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;

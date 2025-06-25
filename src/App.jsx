@@ -62,10 +62,10 @@ const tabConfigs = {
   STAFF: {
     csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSo7n2hUWWcqVfztryidahUsqwbQUAp5vNO7IFfMQbGFxOzK2HYB-ojPR5ZZ7aH0JKOXQd5vIODtHLT/pub?output=csv',
     parser: (row, index) => {
-      const [staffName, imageName, role] = row.split(",");
+      const [staffName, imageName, level, role, department, specialism, linkedin, research, portfolio  ] = row.split(",");
       const imagePath = `./assets/images/staff/${imageName.trim()}`;
       const image = staffImages[imagePath]?.default || '';
-      return { id: index, title: staffName, image, role };
+      return { id: index, title: staffName, image, level, role, department, specialism, linkedin, research, portfolio};
     }
   },
 
@@ -216,7 +216,7 @@ useEffect(() => {
 <div style={{
   backgroundColor: 'var(--UofSGrey)',
   borderRadius: '1rem',
-  marginTop: '30px',
+  marginTop: '20px',
   padding: '30px',
   display: loading ? 'none' : 'grid', // Hide while loading
   gridTemplateColumns: `repeat(auto-fill, minmax(${cardMinWidth}px, 1fr))`,
@@ -288,8 +288,8 @@ useEffect(() => {
 </div>
 
 {loading && (
-  <div style={{ textAlign: 'center', color: '#EF4A3B', fontFamily: 'Arial Black' }}>
-    Loading...
+  <div style={{ padding: ('80px') ,textAlign: 'center', color: 'var(--UofSRed)', fontFamily: 'Arial Black',fontSize: '24px' }}>
+    LOADING...
   </div>
 )}
 
@@ -309,74 +309,119 @@ useEffect(() => {
 
 
       {/* Pop-up Modal */}
-      {selected && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: 9999
+{selected && (
+  <div style={{
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 9999
+  }}>
+    <div style={{
+      backgroundColor: 'var(--UofSGrey)',
+      borderRadius: '20px',
+      padding: '25px',
+      maxWidth: '90%',
+      width: '500px',
+      display: 'flex',
+      flexDirection: 'row',
+      gap: '20px',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)'
+    }}>
+      <div style={{ flex: 1 }}>
+        <h3 style={{
+          fontFamily: 'Arial Black, Gadget, sans-serif',
+          color: 'var(--UofSBlue)',
+          fontSize: '20px',
+          marginBottom: '-10px',
+          marginTop: '10px'
         }}>
-          <div style={{
-            backgroundColor: 'var(--UofSGrey)',
-            borderRadius: '8px',
-            padding: '20px',
-            maxWidth: '60%',
-            width: '400px',
-            display: 'flex',
-            gap: '20px'
+          {selected.title}
+        </h3>
+
+        {/* Tab-specific content */}
+        {activeTab === 'CREDITS' && selected.students?.map((s, i) => (
+          <div key={i} style={{ marginBottom: '10px' }}>
+            <p style={{
+              fontFamily: 'Arial, sans-serif',
+              color: '#EF4A3B',
+              fontSize: '18px'
+            }}>{s.name}</p>
+            {s.linkedin && <a href={s.linkedin} target="_blank" rel="noreferrer" style={{
+              fontFamily: 'Arial, sans-serif',
+              color: '#170D38',
+              fontSize: '16px'
+            }}>LinkedIn</a>}<br />
+            {s.portfolio && <a href={s.portfolio} target="_blank" rel="noreferrer" style={{
+              fontFamily: 'Arial, sans-serif',
+              color: '#170D38',
+              fontSize: '16px'
+            }}>Portfolio</a>}
+          </div>
+        ))}
+
+        {activeTab === 'STUDIOS' && selected.website && (
+          <a href={selected.website} target="_blank" rel="noreferrer" style={{
+            fontFamily: 'Arial, sans-serif',
+            fontSize: '16px',
+            color: '#170D38'
           }}>
-            <div style={{ flex: 1 }}>
-              <h3 style={{
-                fontFamily: 'Arial Black, Gadget, sans-serif',
-                color: '#170D38',
-                fontSize: '20px'
-              }}>
-                {selected.title}
-              </h3>
-              {selected.students.map((s, i) => (
-                <div key={i} style={{ marginBottom: '10px' }}>
-                  <p style={{
-                    fontFamily: 'Arial, sans-serif',
-                    color: '#EF4A3B',
-                    fontSize: '18px'
-                  }}>{s.name}</p>
-                  {s.linkedin && <a href={s.linkedin} target="_blank" rel="noreferrer" style={{
-                    fontFamily: 'Arial, sans-serif',
-                    color: '#170D38',
-                    fontSize: '16px'
-                  }}>LinkedIn</a>}<br />
-                  {s.portfolio && <a href={s.portfolio} target="_blank" rel="noreferrer" style={{
-                    fontFamily: 'Arial, sans-serif',
-                    color: '#170D38',
-                    fontSize: '16px'
-                  }}>Portfolio</a>}
-                </div>
-              ))}
-              <button onClick={() => setSelected(null)} style={{
-                marginTop: '10px',
-                backgroundColor: '#170D38',
-                color: 'white',
-                padding: '8px 16px',
-                border: 'none',
-                borderRadius: '4px'
-              }}>Close</button>
-            </div>
-            <div style={{ flex: '0 0 150px' }}>
+            Visit Website
+          </a>
+        )}
+
+                {activeTab === 'STAFF' && selected.role && (
+                  <p style={{fontFamily: 'Arial Black, sans-serif',fontSize: '16px',color: 'var(--UofSRed)'}}>{selected.role}</p>
+                )}
+                {activeTab === 'STAFF' && selected.department && (
+                  <p style={{fontFamily: 'Arial, sans-serif',fontSize: '16px',color: 'var(--UofSBlue)',marginTop: '30px'}}>
+                    <b>Department: </b> {selected.department}<br></br>
+                    <b>Specialism: </b> {selected.specialism}</p>
+                )}
+                {activeTab === 'STAFF' && selected.linkedin && (
+                  <p style={{fontFamily: 'Arial, sans-serif',fontSize: '16px',color: 'var(--UofSRed)'}}>
+                    LinkedIn: {selected.linkedin}</p>
+                )}
+
+                
+
+                {activeTab === 'GAMES' && selected.releaseYear && (
+                  <p style={{fontFamily: 'Arial, sans-serif', fontSize: '16px', color: '#170D38'}}> Released: {selected.releaseYear}</p>
+                )}
+
+      </div>
+
+            <div style={{
+              flex: '0 0 150px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-end' // Aligns children (button) to the right
+            }}>
               <img src={selected.image} alt={selected.title} style={{
                 width: '100%',
-                borderRadius: '6px',
-                objectFit: 'cover'
+                borderRadius: '10px',
+                objectFit: 'cover',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)'
               }} />
+              <button onClick={() => setSelected(null)} style={{
+                marginTop: '20px',
+                backgroundColor: 'var(--UofSBlue)',
+                color: 'white',
+                padding: '10px 16px',
+                border: 'none',
+                borderRadius: '20px',
+                alignSelf: 'flex-end' // Ensures the button is at the right
+              }}>Close</button>
             </div>
-          </div>
-        </div>
-      )}
+    </div>
+  </div>
+)}
+
 
       {/* Footer */}
       <div style={{
@@ -432,6 +477,11 @@ useEffect(() => {
 </a>
       </div>
 
+
+
     </div>
+
+
+    
   );
 }
