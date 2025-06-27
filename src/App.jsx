@@ -7,7 +7,9 @@ import anniversaryLogoDark from './assets/images/23YoG_dark.png';
 import UofSLogo from './assets/SU.svg';
 import lightModeIcon from './assets/lightmode.svg';
 import darkModeIcon from './assets/darkmode.svg';
-
+import linkedin from './assets/images/linkedin.svg';
+import research from './assets/images/research.svg';
+import portfolio from './assets/images/portfolio.svg';
 
 // Dynamically import box art images
 const boxArtImages = import.meta.glob('./assets/images/boxart/*', { eager: true });
@@ -33,54 +35,54 @@ export default function LoA() {
   // GRID CSV Mapping
 const tabConfigs = {
 
-  CREDITS: {
-    csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTB9a6UtJtvvOzJdKK4dozXmyP9J1ofMn4FFjB6VNfxJ72rgFp4JlNUMhSp0jJJCk5JPYGgWklX5PuR/pub?output=csv',
-    parser: (row, index) => {
-      const [title, imageName, studentNames, linkedins, portfolios] = row.split(",");
-      const names = studentNames?.split("|") || [];
-      const links = linkedins?.split("|") || [];
-      const ports = portfolios?.split("|") || [];
-      const students = names.map((name, i) => ({
-        name: name.trim(),
-        linkedin: links[i]?.trim() || "",
-        portfolio: ports[i]?.trim() || ""
-      }));
-      const imagePath = `./assets/images/boxart/${imageName.trim()}`;
-      const image = boxArtImages[imagePath]?.default || '';
-      return { id: index, title, image, students };
-    }
-  },
+      CREDITS: {
+        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTB9a6UtJtvvOzJdKK4dozXmyP9J1ofMn4FFjB6VNfxJ72rgFp4JlNUMhSp0jJJCk5JPYGgWklX5PuR/pub?output=csv',
+        parser: (row, index) => {
+          const [title, imageName, studentNames, linkedins, portfolios] = row.split(",");
+          const names = studentNames?.split("|") || [];
+          const links = linkedins?.split("|") || [];
+          const ports = portfolios?.split("|") || [];
+          const students = names.map((name, i) => ({
+            name: name.trim(),
+            linkedin: links[i]?.trim() || "",
+            portfolio: ports[i]?.trim() || ""
+          }));
+          const imagePath = `./assets/images/boxart/${imageName.trim()}`;
+          const image = boxArtImages[imagePath]?.default || '';
+          return { id: index, title, image, students };
+        }
+      },
 
-  STUDIOS: {
-    csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsRlsFc_V0Hv9ohZaakOtm7Krzo5GVCVIlIDemtsOpmEQFtFaapcZexH3nUC7uxXPNxDQCgk0Jd5lH/pub?output=csv',
-    parser: (row, index) => {
-      const [studioName, imageName, website] = row.split(",");
-      const imagePath = `./assets/images/studio/${imageName.trim()}`;
-      const image = studioImages[imagePath]?.default || '';
-      return { id: index, title: studioName, image, website };
-    }
-  },
+      STUDIOS: {
+        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsRlsFc_V0Hv9ohZaakOtm7Krzo5GVCVIlIDemtsOpmEQFtFaapcZexH3nUC7uxXPNxDQCgk0Jd5lH/pub?output=csv',
+        parser: (row, index) => {
+          const [studioName, imageName, website] = row.split(",");
+          const imagePath = `./assets/images/studio/${imageName.trim()}`;
+          const image = studioImages[imagePath]?.default || '';
+          return { id: index, title: studioName, image, website };
+        }
+      },
 
-  STAFF: {
-    csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSo7n2hUWWcqVfztryidahUsqwbQUAp5vNO7IFfMQbGFxOzK2HYB-ojPR5ZZ7aH0JKOXQd5vIODtHLT/pub?output=csv',
-    parser: (row, index) => {
-      const [staffName, imageName, level, role, department, specialism, linkedin, research, portfolio  ] = row.split(",");
-      const imagePath = `./assets/images/staff/${imageName.trim()}`;
-      const image = staffImages[imagePath]?.default || '';
-      return { id: index, title: staffName, image, level, role, department, specialism, linkedin, research, portfolio};
-    }
-  },
+      STAFF: {
+        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSo7n2hUWWcqVfztryidahUsqwbQUAp5vNO7IFfMQbGFxOzK2HYB-ojPR5ZZ7aH0JKOXQd5vIODtHLT/pub?output=csv',
+        parser: (row, index) => {
+          const [staffName, imageName, level, role, department, specialism, linkedin, research, portfolio,  ] = row.split(",");
+          const imagePath = `./assets/images/staff/${imageName.trim()}`;
+          const image = staffImages[imagePath]?.default || '';
+          return { id: index, title: staffName, image, level, role, department, specialism, linkedin, research, portfolio};
+        }
+      },
 
-  GAMES: {
-    csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRcczx33xixp4uvdKmm56MuouAu2taz8boXR8fF1FWnY70MSM_NQtjWn1fh6YtDwmjEvPbazotjjec/pub?output=csv',
-    parser: (row, index) => {
-      const [gameName, imageName, releaseYear] = row.split(",");
-      const imagePath = `./assets/images/games/${imageName.trim()}`;
-      const image = gameImages[imagePath]?.default || '';
-      return { id: index, title: gameName, image, releaseYear };
-    }
-  }
-};
+      GAMES: {
+        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRcczx33xixp4uvdKmm56MuouAu2taz8boXR8fF1FWnY70MSM_NQtjWn1fh6YtDwmjEvPbazotjjec/pub?output=csv',
+        parser: (row, index) => {
+          const [gameName, imageName, releaseYear] = row.split(",");
+          const imagePath = `./assets/images/games/${imageName.trim()}`;
+          const image = gameImages[imagePath]?.default || '';
+          return { id: index, title: gameName, image, releaseYear };
+        }
+      }
+    };
 
 // Tab descriptions at bottom of grid
 const tabDescriptions = {
@@ -91,20 +93,19 @@ const tabDescriptions = {
 };
 
 // Dynamic grid/card styles per tab
-const tabStyles = {
-  CREDITS: { cardHeight: 260, minWidth: 150 },
-  STUDIOS: { cardHeight: 180, minWidth: 140 },
-  STAFF:   { cardHeight: 250, minWidth: 100 },
-  GAMES:   { cardHeight: 300, minWidth: 250 }
-};
+  const tabStyles = {
+    CREDITS: { cardHeight: 260, minWidth: 150 },
+    STUDIOS: { cardHeight: 180, minWidth: 140 },
+    STAFF: { cardHeight: 250, minWidth: 100 },
+    GAMES: { cardHeight: 300, minWidth: 250 }
+  };
 
-const cardMinWidth = {
-  CREDITS: 160,
-  STUDIOS: 150,
-  STAFF: 180,
-  GAMES: 240
-}[activeTab] || 200;
-
+  const cardMinWidth = {
+    CREDITS: 160,
+    STUDIOS: 150,
+    STAFF: 180,
+    GAMES: 240
+  }[activeTab] || 200;
 
 const { cardHeight, minWidth } = tabStyles[activeTab] || { cardHeight: 260, minWidth: 150 };
 
@@ -131,7 +132,8 @@ useEffect(() => {
     <div style={{ padding: '30px', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
 
 {/* Header */}
-<div style={{
+<div
+style={{
   backgroundColor: 'var(--bg-light)',
   borderRadius: '60px',
   height: '120px',
@@ -227,13 +229,13 @@ useEffect(() => {
 
 
 {/* Grid of Items */}
-<div style={{
+<div 
+style={{
   borderRadius: '1rem',
   marginTop: '20px',
   padding: '30px',
   display: loading ? 'none' : 'grid', // Hide while loading
   gridTemplateColumns: `repeat(auto-fill, minmax(${cardMinWidth}px, 1fr))`,
-
   gap: '20px',
   width: '100%',
   boxSizing: 'border-box',
@@ -399,10 +401,41 @@ useEffect(() => {
                     <b>Department: </b> {selected.department}<br></br>
                     <b>Specialism: </b> {selected.specialism}</p>
                 )}
-                {activeTab === 'STAFF' && selected.linkedin && (
-                  <p style={{fontFamily: 'Arial, sans-serif',fontSize: '16px',color: 'var(--UofSRed)'}}>
-                    LinkedIn: {selected.linkedin}</p>
-                )}
+              {activeTab === 'STAFF' && selected.linkedin && (
+                <a
+                  href={selected.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    height: '40px', display: 'block', marginBottom: '10px',
+                  }}
+                ><img src={linkedin} alt="LinkedIn Logo" style={{ height: '100%', objectFit: 'contain' }} />
+                </a>
+              )}
+              {activeTab === 'STAFF' && selected.research && (
+                <a
+                  href={selected.research}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    height: '40px', display: 'block',marginBottom: '10px',
+                  }}
+                ><img src={research} alt="LinkedIn Logo" style={{ height: '100%', objectFit: 'contain' }} />
+                </a>
+              )}              
+              {activeTab === 'STAFF' && selected.portfolio && selected.portfolio.trim() !== "" && (
+                <a
+                  href={selected.portfolio}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    height: '40px', display: 'block',marginBottom: '10px',
+                  }}
+                ><img src={portfolio} alt="LinkedIn Logo" style={{ height: '100%', objectFit: 'contain' }} />
+                </a>
+              )}
+
+
 
                 
 
@@ -440,7 +473,8 @@ useEffect(() => {
 
 
       {/* Footer */}
-      <div style={{
+      <div 
+      style={{
         backgroundColor: 'var(--bg-light)',
         borderRadius: '40px',
         height: '80px',
