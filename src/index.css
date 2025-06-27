@@ -2,11 +2,71 @@ html, body, #root {
   margin: 0;
   padding: 0;
   height: 100%;
-  background-color: #C2BFD2;
 }
 
 :root {
   --UofSBlue: #170D38;
   --UofSRed: #EF4A3B;
   --UofSGrey: #C2BFD2;
+
+  --bg-dark: hsl(15, 10%, 5%);
+  --bg: hsl(15, 5%, 15%);
+  --bg-light: hsl(10, 5%, 30%);
+  --text: hsl(240, 10%, 90%);
+  --text-light: hsl(0, 3%, 70%);
+  --text-button: hsl(0, 0%, 89%);
+  --text-dark: hsl(240, 10%, 70%);
 }
+
+body.light {
+  --UofSBlue: #170D38;
+  --UofSRed: #EF4A3B;
+  --UofSGrey: #C2BFD2;
+
+  --bg-dark: hsl(120, 10%, 10%);
+  --bg: hsl(255, 5%, 80%);
+  --bg-light: hsl(255, 5%, 90%);
+  --text: hsl(240, 3%, 14%);
+  --text-light: hsl(240, 3%, 44%);
+  --text-button: hsl(0, 0%, 13%);
+  --text-dark: hsl(240, 10%, 70%);
+}
+
+body{
+  background: var(--bg);
+  color: var(--textg);
+}
+
+
+
+.doto-title{
+  font-family: "Doto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  font-variation-settings:"ROND" 1000;
+}
+
+.doto-light{
+  font-family: "Doto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings:"ROND" 0;
+
+  background-color: var(--UofSRed);
+  color: #fff; /* Optional: change text color for contrast */
+  transition: background 0.2s, color 0.2s;
+}
+
+
+.doto-heavy{
+  font-family: "Doto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+  font-variation-settings:"ROND" 0;
+}
+
+
+

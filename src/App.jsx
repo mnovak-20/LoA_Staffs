@@ -2,14 +2,13 @@ import { useState, useEffect } from 'react';
 // Importing images
 import logo from './assets/images/UofS_Master_Logo_RGB_Reverse.png';
 import logo2 from './assets/images/UofS_Master_Logo_RGB_Reverse_notext.png';
-import UofS from './assets/images/UofS_Logo.svg';
+import UofSLight from './assets/images/UofS_Logo_Light.svg';
+import UofSDark from './assets/images/UofS_Logo_dark.svg';
 import UofSDeco from './assets/images/UofS_Logo_Deco.svg';
 import anniversaryLogo from './assets/images/23YoG.png';
 import UofSLogo from './assets/SU.svg';
-
-
-
-
+import lightModeIcon from './assets/lightmode.svg';
+import darkModeIcon from './assets/darkmode.svg';
 
 
 
@@ -28,6 +27,12 @@ export default function LoA() {
 
   const [loading, setLoading] = useState(false);
 
+  const [theme, setTheme] = useState('light');
+  const toggleTheme = () => setTheme(t => t === 'light' ? 'dark' : 'light');
+
+  useEffect(() => {
+    document.body.className = theme === 'light' ? '' : 'light';
+  }, [theme]);
 
   // GRID CSV Mapping
 const tabConfigs = {
@@ -130,7 +135,7 @@ useEffect(() => {
 
 {/* Header */}
 <div style={{
-  backgroundColor: 'var(--UofSBlue)',
+  backgroundColor: 'var(--bg-light)',
   borderRadius: '60px',
   height: '120px',
   display: 'flex',
@@ -142,79 +147,100 @@ useEffect(() => {
 }}>
   {/* Left: Title and inline logo */}
   <div style={{ display: 'flex', alignItems: 'left', gap: '20px' }}>
-    <div style={{
-      fontFamily: 'Arial Black, Gadget, sans-serif',
-      color: 'var(--UofSRed)',
-      fontSize: '28px',
-      whiteSpace: 'nowrap',
-    }}>
-      List of Awesome
-    </div>
+    <div
+  className="doto-title"
+  style={{
+    color: 'var(--UofSRed)',
+    fontSize: '36px',
+    whiteSpace: 'nowrap'
+  }}
+>
+  List of Awesome
+</div>
             <a
   href="https://www.staffs.ac.uk/courses/search?q=games"
   target="_blank"
   rel="noreferrer"
    > 
    <img
-      src={UofS}
+      src={theme === 'light' ? UofSLight : UofSDark}
       alt="University of Staffordshire"
-      style={{ height: '40px', objectFit: 'contain' }}
+      style={{ 
+        height: '40px', 
+        objectFit: 'contain'}}
     />
     </a>
   </div>
 
-  {/* Right: Decorative SU logo */}
+  {/* Right: Decorative SU logo 
   <div style={{       
       position: 'absolute',
       top: '-150px',    // Move up
       right: '0',      // Align to right
       height: '150px', // Adjust as needed
       zIndex: 0}}>
-    <img src={UofSDeco} alt="Staffs Decorative Logo" style={{ height: '200%', objectFit: 'contain' }} />
-  </div>
+    <img src={UofSDeco} alt="Staffs Decorative Logo" style={{ 
+      height: '200%'}} />
+  </div>*/}
 </div>
 
 {/* Navigation Tabs */}
-<div style={{
-  borderRadius: '60px',
-  marginTop: '20px',
-  padding: '0px 40px',
-  display: 'flex',
-  gap: '40px',
-  alignContent: 'center',
-  alignSelf: 'center',
-  justifyContent: 'center',  
- 
-}}>
-
-{['CREDITS', 'STUDIOS', 'STAFF', 'GAMES'].map(label => (
-  <div
-    key={label}
-    onClick={() => setActiveTab(label)}
+<div style={{ display: 'flex', alignItems: 'center', gap: '20px', justifyContent: 'center' }}>
+  <img
+    src={theme === 'light' ?   lightModeIcon : darkModeIcon}
+    alt="Toggle light/dark mode"
+    onClick={toggleTheme}
     style={{
-      backgroundColor: activeTab === label ? 'var(--UofSRed)' : 'var(--UofSBlue)',
-      color: 'white',
-      fontFamily: activeTab === label ? 'Arial Black, Gadget, sans-serif': 'Arial, sans-serif',
-      fontSize: '14px',
-      padding: '15px 50px',
-      borderRadius: '30px',
       cursor: 'pointer',
-      whiteSpace: 'nowrap',
-      alignContent: 'center',
-      alignSelf: 'center',
-      justifyContent: 'center'
-    }}
-  >
-    {label}
-  </div>
-))}
+      width: '40px',
+      height: '40px',
+      marginRight: '10px',
+      marginTop: '20px',
+      transition: 'filter 0.3s',
 
+    }}
+    tabIndex={0}
+    role="button"
+    aria-label="Toggle light/dark mode"
+    onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') toggleTheme(); }}
+  />
+  <div style={{
+    borderRadius: '60px',
+    marginTop: '20px',
+    padding: '0px 40px',
+    display: 'flex',
+    gap: '40px',
+    alignContent: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+  }}>
+    {['CREDITS', 'STUDIOS', 'STAFF', 'GAMES'].map(label => (
+      <div
+        key={label}
+        onClick={() => setActiveTab(label)}
+        className={activeTab === label ? 'doto-heavy' : 'doto-light'}
+        style={{
+          backgroundColor: activeTab === label ? 'var(--UofSRed)' : 'transparent',
+          color: 'var(--text-button)',
+          fontSize: '20px',
+          padding: '15px 50px',
+          borderRadius: '30px',
+          cursor: 'pointer',
+          whiteSpace: 'nowrap',
+          alignContent: 'center',
+          alignSelf: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        {label}
+      </div>
+    ))}
+  </div>
 </div>
 
 
 {/* Grid of Items */}
 <div style={{
-  backgroundColor: 'var(--UofSGrey)',
   borderRadius: '1rem',
   marginTop: '20px',
   padding: '30px',
@@ -288,7 +314,9 @@ useEffect(() => {
 </div>
 
 {loading && (
-  <div style={{ padding: ('80px') ,textAlign: 'center', color: 'var(--UofSRed)', fontFamily: 'Arial Black',fontSize: '24px' }}>
+  <div className="doto-title"
+  style={{ padding: ('80px') ,textAlign: 'center', color: 'var(--UofSRed)', 
+  fontSize: '40px' }}>
     LOADING...
   </div>
 )}
@@ -298,11 +326,12 @@ useEffect(() => {
   marginTop: '20px',
   fontFamily: 'Arial, sans-serif',
   fontSize: '18px',
-  color: 'var(--UofSBlue)',
+  color: 'var(--text-light)',
   maxWidth: '800px',
   alignContent: 'center',
   alignSelf: 'center',
-  justifyContent: 'center'
+  justifyContent: 'center',
+  filter: theme === 'dark'
 }}>
   {tabDescriptions[activeTab]}
 </div>
@@ -425,7 +454,7 @@ useEffect(() => {
 
       {/* Footer */}
       <div style={{
-        backgroundColor: 'var(--UofSBlue)',
+        backgroundColor: 'var(--bg-light)',
         borderRadius: '40px',
         height: '80px',
         marginTop: '40px',
@@ -456,11 +485,12 @@ useEffect(() => {
           target="_blank"
           rel="noreferrer"
           style={{
-            fontFamily: 'Arial Black, Gadget, sans-serif',
-            color: 'white',
-            fontSize: '22px',
+            fontFamily: 'Arial, Gadget, sans-serif',
+            color: 'var(--text-light)',
+            fontSize: '18px',
             textDecoration: 'none',
-            whiteSpace: 'nowrap'
+            whiteSpace: 'nowrap',
+            filter: theme === 'dark'
           }}
         >
           staffs.ac.uk/go/games
