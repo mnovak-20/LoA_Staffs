@@ -352,7 +352,7 @@ useEffect(() => {
     zIndex: 9999
   }}>
     <div style={{
-      backgroundColor: 'var(--UofSGrey)',
+      backgroundColor: 'var(--bg-light)',
       borderRadius: '20px',
       padding: '25px',
       maxWidth: '90%',
@@ -365,7 +365,7 @@ useEffect(() => {
       <div style={{ flex: 1 }}>
         <h3 style={{
           fontFamily: 'Arial Black, Gadget, sans-serif',
-          color: 'var(--UofSBlue)',
+          color: 'var(--text-light)',
           fontSize: '20px',
           marginBottom: '-10px',
           marginTop: '10px'
@@ -378,17 +378,17 @@ useEffect(() => {
           <div key={i} style={{ marginBottom: '10px' }}>
             <p style={{
               fontFamily: 'Arial, sans-serif',
-              color: '#EF4A3B',
+              color: 'var(--text-light)',
               fontSize: '18px'
             }}>{s.name}</p>
             {s.linkedin && <a href={s.linkedin} target="_blank" rel="noreferrer" style={{
               fontFamily: 'Arial, sans-serif',
-              color: '#170D38',
+              color: 'var(--UofSRed)',
               fontSize: '16px'
             }}>LinkedIn</a>}<br />
             {s.portfolio && <a href={s.portfolio} target="_blank" rel="noreferrer" style={{
               fontFamily: 'Arial, sans-serif',
-              color: '#170D38',
+              color: 'var(--UofSRed)',
               fontSize: '16px'
             }}>Portfolio</a>}
           </div>
@@ -408,7 +408,7 @@ useEffect(() => {
                   <p style={{fontFamily: 'Arial Black, sans-serif',fontSize: '16px',color: 'var(--UofSRed)'}}>{selected.role}</p>
                 )}
                 {activeTab === 'STAFF' && selected.department && (
-                  <p style={{fontFamily: 'Arial, sans-serif',fontSize: '16px',color: 'var(--UofSBlue)',marginTop: '30px'}}>
+                  <p style={{fontFamily: 'Arial, sans-serif',fontSize: '16px',color: 'var(--text-light)',marginTop: '30px'}}>
                     <b>Department: </b> {selected.department}<br></br>
                     <b>Specialism: </b> {selected.specialism}</p>
                 )}
@@ -435,12 +435,12 @@ useEffect(() => {
                 width: '100%',
                 borderRadius: '10px',
                 objectFit: 'cover',
-                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)'
+                boxShadow: '0 6px 8px rgba(0, 0, 0, 0.6)'
               }} />
               <button onClick={() => setSelected(null)} style={{
                 marginTop: '20px',
-                backgroundColor: 'var(--UofSBlue)',
-                color: 'white',
+                backgroundColor: 'var(--UofSRed)',
+                color: 'var(--text-button)',
                 padding: '10px 16px',
                 border: 'none',
                 borderRadius: '20px',
