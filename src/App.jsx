@@ -1,15 +1,12 @@
 import { useState, useEffect } from 'react';
 // Importing images
-import logo from './assets/images/UofS_Master_Logo_RGB_Reverse.png';
-import logo2 from './assets/images/UofS_Master_Logo_RGB_Reverse_notext.png';
 import UofSLight from './assets/images/UofS_Logo_Light.svg';
 import UofSDark from './assets/images/UofS_Logo_dark.svg';
-import UofSDeco from './assets/images/UofS_Logo_Deco.svg';
-import anniversaryLogo from './assets/images/23YoG.png';
+import anniversaryLogoLight from './assets/images/23YoG_Light.png';
+import anniversaryLogoDark from './assets/images/23YoG_Dark.png';
 import UofSLogo from './assets/SU.svg';
 import lightModeIcon from './assets/lightmode.svg';
 import darkModeIcon from './assets/darkmode.svg';
-
 
 
 // Dynamically import box art images
@@ -18,24 +15,24 @@ const staffImages = import.meta.glob('./assets/images/staff/*', { eager: true })
 const studioImages = import.meta.glob('./assets/images/studio/*', { eager: true });
 const gameImages = import.meta.glob('./assets/images/games/*', { eager: true });
 
-
 // Main component
 export default function LoA() {
   const [activeTab, setActiveTab] = useState('CREDITS');
   const [items, setItems] = useState([]);
   const [selected, setSelected] = useState(null);
-
   const [loading, setLoading] = useState(false);
-
   const [theme, setTheme] = useState('light');
   const toggleTheme = () => setTheme(t => t === 'light' ? 'dark' : 'light');
 
   useEffect(() => {
+
+ // Theme change effect  
     document.body.className = theme === 'light' ? '' : 'light';
   }, [theme]);
 
   // GRID CSV Mapping
 const tabConfigs = {
+
   CREDITS: {
     csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTB9a6UtJtvvOzJdKK4dozXmyP9J1ofMn4FFjB6VNfxJ72rgFp4JlNUMhSp0jJJCk5JPYGgWklX5PuR/pub?output=csv',
     parser: (row, index) => {
@@ -85,7 +82,7 @@ const tabConfigs = {
   }
 };
 
-
+// Tab descriptions at bottom of grid
 const tabDescriptions = {
   CREDITS: "Credit list of games worked on by University of Staffordshire alumni.",
   STUDIOS: "A showcase of studios Staffordshire alumni are employed at.",
@@ -145,43 +142,33 @@ useEffect(() => {
   boxSizing: 'border-box',
   width: '100%',
 }}>
-  {/* Left: Title and inline logo */}
-  <div style={{ display: 'flex', alignItems: 'left', gap: '20px' }}>
-    <div
-  className="doto-title"
-  style={{
-    color: 'var(--UofSRed)',
-    fontSize: '36px',
-    whiteSpace: 'nowrap'
-  }}
->
-  List of Awesome
-</div>
-            <a
-  href="https://www.staffs.ac.uk/courses/search?q=games"
-  target="_blank"
-  rel="noreferrer"
-   > 
-   <img
-      src={theme === 'light' ? UofSLight : UofSDark}
-      alt="University of Staffordshire"
-      style={{ 
-        height: '40px', 
-        objectFit: 'contain'}}
-    />
-    </a>
+        {/* Left: Title and inline logo */}
+        <div style={{ display: 'flex', alignItems: 'left', gap: '20px' }}>
+          <div
+            className="doto-title"
+            style={{
+              color: 'var(--UofSRed)',
+              fontSize: '36px',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            List of Awesome
+          </div>
+              <a
+                href="https://www.staffs.ac.uk/courses/search?q=games"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img
+                  src={theme === 'light' ? UofSLight : UofSDark}
+                  alt="University of Staffordshire"
+                  style={{
+                    height: '40px',
+                    objectFit: 'contain'
+                  }}
+                />
+              </a>
   </div>
-
-  {/* Right: Decorative SU logo 
-  <div style={{       
-      position: 'absolute',
-      top: '-150px',    // Move up
-      right: '0',      // Align to right
-      height: '150px', // Adjust as needed
-      zIndex: 0}}>
-    <img src={UofSDeco} alt="Staffs Decorative Logo" style={{ 
-      height: '200%'}} />
-  </div>*/}
 </div>
 
 {/* Navigation Tabs */}
@@ -473,7 +460,7 @@ useEffect(() => {
   style={{ height: '40px', display: 'block' }}
 >
   <img
-    src={anniversaryLogo}
+    src={theme === 'light' ? anniversaryLogoLight : anniversaryLogoDark}
     alt="23 Years of Games"
     style={{ height: '100%', objectFit: 'contain' }}
   />
@@ -497,14 +484,14 @@ useEffect(() => {
         </a>
 
         {/* Right: SU Logo */}
-        <a
-  href="https://www.staffs.ac.uk/"
-  target="_blank"
-  rel="noreferrer"
-  style={{ height: '40px', display: 'block' }}
->
-  <img src={UofSLogo} alt="Staffs Decorative Logo" style={{ height: '100%', objectFit: 'contain' }} />
-</a>
+          <a
+            href="https://www.staffs.ac.uk/"
+            target="_blank"
+            rel="noreferrer"
+            style={{ height: '40px', display: 'block' }}
+          >
+            <img src={UofSLogo} alt="Staffs Decorative Logo" style={{ height: '100%', objectFit: 'contain' }} />
+          </a>
       </div>
 
 
