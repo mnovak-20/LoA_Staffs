@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 // Importing images
-import UofSLight from './assets/images/UofS_Logo_Light.svg';
+import UofSLight from './assets/images/UofS_Logo_light.svg';
 import UofSDark from './assets/images/UofS_Logo_dark.svg';
 import anniversaryLogoLight from './assets/images/23YoG_Light.png';
 import anniversaryLogoDark from './assets/images/23YoG_Dark.png';
